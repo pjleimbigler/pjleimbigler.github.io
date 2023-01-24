@@ -1,3 +1,0 @@
-[submodule "word-similarity-graph/word-network-graph"]
-	path = word-similarity-graph/word-network-graph
-	url = https://github.com/pjleimbigler/word-network-graph.git
