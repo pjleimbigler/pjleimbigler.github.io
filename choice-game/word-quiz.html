@@ -19,14 +19,14 @@
             text-align: center;
         }
         .word-button {
-            font-size: 80px;
+            font-size: 60px;
             margin: 10px;
             padding: 20px;
             cursor: pointer;
             background-color: #f0f0f0;
             border: 2px solid #000;
             border-radius: 10px;
-            width: 250px;
+            width: 150px;
         }
         .word-button:hover {
             background-color: #ddd;
@@ -61,9 +61,9 @@
     <script>
         // Function to trigger TTS
         function speak(text) {
-            const utterance = new SpeechSynthesisUtterance(text);
+            const utterance = new SpeechSynthesisUtterance(text.toLowerCase());
             utterance.rate = 0.4;
-            speechSynthesis.speak(utterance.toLowerCase());
+            speechSynthesis.speak(utterance);
         }
 
         // Randomly shuffle an array
