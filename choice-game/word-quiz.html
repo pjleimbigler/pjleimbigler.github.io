@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: white;
+            transition: background-color 0.25s ease;
+        }
+        .quiz-container {
+            text-align: center;
+        }
+        .word-button {
+            font-size: 80px;
+            margin: 10px;
+            padding: 20px;
+            cursor: pointer;
+            background-color: #f0f0f0;
+            border: 2px solid #000;
+            border-radius: 10px;
+            width: 250px;
+        }
+        .word-button:hover {
+            background-color: #ddd;
+        }
+        #speaker {
+            font-size: 64px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .correct-bg {
+        background-color: #00aa00;
+        }
+
+        /* Flash for incorrect answer */
+        .incorrect-bg {
+        background-color: darkred; /* You can adjust this to a pale orange color */
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h1>Tap the word:
+            <span id="speaker" role="button">🔊</span>
+        </h1>
+        <button class="word-button" id="word1"></button>
+        <button class="word-button" id="word2"></button><br>
+        <button class="word-button" id="word3"></button>
+        <button class="word-button" id="word4"></button>
+    </div>
+
+    <script>
+        // Function to trigger TTS
+        function speak(text) {
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.rate = 0.4;
+            speechSynthesis.speak(utterance);
+        }
+
+        // Randomly shuffle an array
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        const wordsData = {
+    "words": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M",
+        "N",
+        "O",
+        "P",
+        "Q",
+        "R",
+        "S",
+        "T",
+        "U",
+        "V",
+        "W",
+        "X",
+        "Y",
+        "Z"
+    ]
+}
+
+        let targetWord = '';
+
+        // Start the quiz
+        async function startQuiz() {
+            const words = wordsData.words;  // Load words from the JSON file
+            const shuffledWords = shuffle(words);  // Shuffle the word list
+            const quizWords = shuffledWords.slice(0, 4);
+
+            // Display the words in buttons
+            quizWords.forEach((word, index) => {
+                document.getElementById('word' + (index + 1)).textContent = word;
+            });
+
+            // Select a target word to speak
+            targetWord = quizWords[Math.floor(Math.random() * quizWords.length)];
+            speak(targetWord);
+
+            // Check if the correct word is clicked
+            quizWords.forEach((word, index) => {
+                document.getElementById('word' + (index + 1)).onclick = function () {
+                    if (word === targetWord) {
+                        flashBackground(true);
+                    } else {
+                        flashBackground(false);
+                    }
+                    startQuiz();  // Restart the quiz after each attempt
+                };
+            });
+        }
+
+        function flashBackground(isCorrect) {
+            const body = document.body;  // Target the entire body element
+  
+            // Add the correct or incorrect background class
+            if (isCorrect) {
+                body.classList.add('correct-bg');
+            } else {
+                body.classList.add('incorrect-bg');
+            }
+
+            // Hold the color for 0.5 seconds, then remove the class to revert to the original background
+            setTimeout(() => {
+                body.classList.remove('correct-bg');
+                body.classList.remove('incorrect-bg');
+            }, 800);  // 500 milliseconds = 0.5 seconds
+
+    }
+
+            document.getElementById('speaker').addEventListener('click', function() {speak(targetWord);});
+
+        // Initialize the quiz when the page loads
+        startQuiz();
+    </script>
+</body>
+</html>
