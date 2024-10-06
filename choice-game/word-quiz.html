@@ -35,10 +35,19 @@
             font-size: 64px;
             cursor: pointer;
             margin-left: 10px;
+            border: 1px solid grey;
+            border-radius: 15px;
+            padding: 10px;
+        }
+
+        #speaker:active {
+            border: 1px solid red; /* Change emoji color */
+            background-color: orange; /* Lighten the background */
+            box-shadow: 0 0 15px orange; /* Add a shadow */
         }
 
         .correct-bg {
-        background-color: #00aa00;
+        background-color: green;
         }
 
         /* Flash for incorrect answer */
@@ -49,7 +58,7 @@
 </head>
 <body>
     <div class="quiz-container">
-        <h1>Tap the word:
+        <h1>Tap to listen:
             <span id="speaker" role="button">🔊</span>
         </h1>
         <button class="word-button" id="word1"></button>
